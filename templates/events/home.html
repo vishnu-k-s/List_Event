@@ -1,19 +1,39 @@
 {% extends 'base.html' %}
-  
 
-{% block content %}    
-    {% for event in events %}
-        <div class="container pt-3">
-            <div class="card mb-3">
-                <img src="{{ event.image.url}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">{{ event }}</h5>
-                  <p class="card-text">{{ event.description }}</p>
-                  <p class="card-text"><small class="text-muted">{{ event.start_date }} - {{ event.end_date }}</small></p>
-                </div>
-              </div>
-        </div>
-          
-    {% endfor %}
+
+{% block content %}
+{% for event in page_obj %}
+<div class="container pt-3">
+  <div class="card mb-3">
+    <img src="{{ event.image.url}}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{ event }}</h5>
+      <p class="card-text">{{ event.description }}</p>
+      <p class="card-text"><small class="text-muted">{{ event.start_date }} - {{ event.end_date }}</small></p>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+
+
+
+<div class="pagination justify-content-center pb-3">
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+    <a href="?page=1">&laquo; first</a>
+    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">next</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+  </span>
+</div>
+
 {% endblock %}
-    
